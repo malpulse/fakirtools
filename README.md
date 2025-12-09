@@ -5,7 +5,7 @@ Tools for Large-Scale Newly Registered Domain Collection, WHOIS/DNS Enrichment, 
 This repository contains two Python scripts designed to work together:
 
 1. **domain_analyze.py** – Fetches newly-seen domains, performs DNS + WHOIS enrichment, and saves the results into a structured CSV file.
-2. **cluster.py** – Clusters domains based on shared WHOIS, DNS, or IP-related attributes from the generated CSV/TXT dataset.
+2. **cluster_domains.py** – Clusters domains based on shared WHOIS, DNS, or IP-related attributes from the generated CSV/TXT dataset.
 
 Both tools are optimized for low-RAM servers, incremental processing, and scalable handling of thousands of domains.
 
