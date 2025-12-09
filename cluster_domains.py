@@ -1,13 +1,3 @@
-"""
-# Cluster by nameServers and registrant_organization
-python cluster_domains.py domains.txt output.txt -f nameServers registrant_organization
-
-# Cluster by multiple fields with minimum 5 domains per cluster
-python cluster_domains.py domains.txt output.txt -f nameServers registrant_organization ip_asn -m 5
-
-# Cluster by registrar and IP details
-python cluster_domains.py domains.txt output.txt -f registrarName ip_org ip_country
-"""
 import csv
 from collections import defaultdict
 from typing import List, Set
@@ -49,6 +39,9 @@ class DomainClusterer:
         key_parts = []
         for field in self.cluster_fields:
             value = row.get(field, '').strip()
+            # If any clustering field is empty, return None to skip this row
+            if not value:
+                return None
             key_parts.append(value)
         return '|||'.join(key_parts)
 
@@ -67,6 +60,7 @@ class DomainClusterer:
         print(f"Clustering on fields: {', '.join(self.cluster_fields)}")
 
         processed = 0
+        skipped = 0
 
         with open(input_file, 'r', encoding='utf-8') as f:
             reader = csv.DictReader(f, fieldnames=self.FIELD_NAMES)
@@ -77,6 +71,12 @@ class DomainClusterer:
                     continue
 
                 cluster_key = self._create_key(row)
+
+                # Skip if any clustering field is empty
+                if cluster_key is None:
+                    skipped += 1
+                    continue
+
                 self.clusters[cluster_key].add(domain)
 
                 processed += 1
@@ -84,6 +84,7 @@ class DomainClusterer:
                     print(f"Processed {processed:,} domains...")
 
         print(f"Total domains processed: {processed:,}")
+        print(f"Domains skipped (missing clustering fields): {skipped:,}")
         print(f"Total clusters found: {len(self.clusters):,}")
 
         return self.clusters
