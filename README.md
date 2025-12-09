@@ -162,14 +162,3 @@ pip install whois
 ## 📄 License
 
 MIT License – free for research, security investigations, and commercial use.
-
----
-
-If you'd like, I can also create:
-
-✅ A Markdown version (README.md)
-✅ Badges (Python version, License, Status)
-✅ Example screenshots of output
-✅ A diagram showing workflow ("Collect → Enrich → Cluster")
-
-Just tell me!
